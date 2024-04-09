@@ -18,7 +18,6 @@ def txt_to_json(fichier_txt):
 
 json_data = txt_to_json("data.txt")
 
-
 def txt_to_json(fichier_txt, nouveau_fichier):
     """
     La fonction permet de convertir un fichier texte en un objet JSON.
