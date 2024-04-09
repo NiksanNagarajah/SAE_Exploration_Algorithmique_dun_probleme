@@ -43,14 +43,15 @@ def txt_to_json(fichier_txt, nouveau_fichier):
             # break
             liste.append(ligne)
             json_file.write(ligne)
-            l_champs = ligne.split(",")
-            #l_champs = dict(l_champs)
-            # print(l_champs)
+            l_champs = ligne.split(", ")
+            # l_champs = dict(l_champs)
+            # break
+            print(l_champs)
             # der_val = l_champs[len(l_champs) - 1]
             # print(der_val)
-            # for i in l_champs.keys():
-            #     print(l_champs[i])
-            # break
+            for i in l_champs.keys():
+                print(l_champs[i])
+            break
             # if der_val[0] == 'T':
             #     der_val = True
             # else:
