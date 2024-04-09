@@ -17,3 +17,4 @@ def txt_to_json(fichier_txt):
     return data
 
 json_data = txt_to_json("data.txt")
+print(json_data)
