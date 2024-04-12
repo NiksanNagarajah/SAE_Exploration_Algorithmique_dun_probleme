@@ -16,7 +16,18 @@ def txt_to_json(fichier_txt, nouveau_fichier):
         json_file = open(nouveau_fichier, 'w')
         lesLignes = fichier.readlines()
         for ligne in lesLignes:
-            donnees.append(json.loads(ligne))
+            amodif = json.loads(ligne)
+            ajout = {}
+            for (cle, valeur) in amodif.items():
+                if type(valeur) == list:
+                    liste = []
+                    for nom in valeur:
+                        nom = nom.replace("[[", "")
+                        nom = nom.replace("]]", "")
+                        liste.append(nom)
+                    valeur = liste
+                ajout[cle] = valeur
+            donnees.append(ajout)
         json.dump(donnees, json_file, indent=4, ensure_ascii=False)
         fichier.close()
         json_file.close()
