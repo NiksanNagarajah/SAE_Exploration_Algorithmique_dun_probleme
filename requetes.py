@@ -10,8 +10,8 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     Returns:
         dict: L'objet JSON représentant le contenu du fichier texte.
     """
-    donnees = [] 
     try:
+        donnees = [] 
         fichier = open(fichier_txt, 'r', encoding="utf8")
         json_file = open(nouveau_fichier, 'w')
         lesLignes = fichier.readlines()
