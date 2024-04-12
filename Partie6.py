@@ -1,4 +1,5 @@
 import json
+import networkx as nx
 
 def txt_to_json(fichier_txt):
     """
