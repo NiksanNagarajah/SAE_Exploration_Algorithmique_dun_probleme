@@ -56,7 +56,7 @@ def json_vers_nx(chemin):
     nx.draw(G, with_labels=True)
     plt.show()
 
-# print(json_vers_nx("data_2.json"))
+# json_vers_nx("data_2.json")
 
 def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
     G = nx.Graph()
