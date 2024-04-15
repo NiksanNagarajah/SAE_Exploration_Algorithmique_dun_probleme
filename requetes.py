@@ -1,4 +1,6 @@
 import json
+import networkx as nx
+import matplotlib.pyplot as plt
 
 def corrige_nom(nom):
     nom = nom.replace("[[", "")
@@ -42,13 +44,21 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     except:
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
-txt_to_json("data.txt", "data.json")
+#txt_to_json("data.txt", "data.json")
 
-def collaborateurs_communs(G, acteur1, acteur2):
+def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
+    G = nx.Graph()
+    for acteur in collaborateurs:
+        G.add_edge(acteur1, acteur)
+        G.add_edge(acteur2, acteur)
+    nx.draw(G, with_labels=True)
+    plt.show()
+
+def collaborateurs_communs(fichier, acteur1, acteur2):
     collaborateurs = set()
     colab_acteur1 = set()
     colab_acteur2 = set()
-    json_file = json.load(open(G, "r"))
+    json_file = json.load(open(fichier, "r"))
     for film in json_file:
         cast = film['cast']
         if acteur1 in cast:
@@ -60,11 +70,8 @@ def collaborateurs_communs(G, acteur1, acteur2):
                 if acteur != acteur2:
                     colab_acteur2.add(acteur)
     collaborateurs = colab_acteur1.intersection(colab_acteur2)
+    graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs)
     return collaborateurs
 
-# print(collaborateurs_communs("data.json", "Bruce Campbell", "Ian Abercrombie"))
-print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
+print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
-#res = collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")
-#for acteur in res:
-#    print(acteur)
