@@ -1,5 +1,6 @@
 import json
-import time
+import networkx as nx
+import matplotlib.pyplot as plt
 
 def corrige_nom(nom):
     nom = nom.replace("[[", "")
@@ -45,8 +46,30 @@ def txt_to_json(fichier_txt, nouveau_fichier):
 
 # txt_to_json("data.txt", "data.json")
 
-def collaborateurs_communs(G, acteur1, acteur2):
-    """
+
+
+def json_vers_nx(chemin):
+    G = nx.Graph()
+    json_file = json.load(open(chemin, "r"))
+    for film in json_file:
+        cast = film['cast']
+        for acteur in cast:
+            G.add_edge(film['title'], acteur)
+    nx.draw(G, with_labels=True)
+    plt.show()
+
+# print(json_vers_nx("data_2.json"))
+
+def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
+    G = nx.Graph()
+    for acteur in collaborateurs:
+        G.add_edge(acteur1, acteur)
+        G.add_edge(acteur2, acteur)
+    nx.draw(G, with_labels=True)
+    plt.show()
+
+def collaborateurs_communs(fichier, u, v):
+      """
     Retourne l'ensemble des acteurs qui ont collaboré avec à la fois acteur1 et acteur2
     dans les films répertoriés dans le fichier JSON G.
 
@@ -61,19 +84,21 @@ def collaborateurs_communs(G, acteur1, acteur2):
     collaborateurs = set()
     colab_acteur1 = set()
     colab_acteur2 = set()
-    json_file = json.load(open(G, "r"))
+    json_file = json.load(open(fichier, "r"))
     for film in json_file:
         cast = film['cast']
-        if acteur1 in cast:
+        if u in cast:
             for acteur in cast:
-                if acteur != acteur1:
+                if acteur != u:
                     colab_acteur1.add(acteur)
-        if acteur2 in cast:
+        if v in cast:
             for acteur in cast:
-                if acteur != acteur2:
+                if acteur != v:
                     colab_acteur2.add(acteur)
     collaborateurs = colab_acteur1.intersection(colab_acteur2)
+    # graphe_collaborateurs_communs(u, v, collaborateurs)
     return collaborateurs
+
 
 print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
 
@@ -92,9 +117,6 @@ def collaborateurs_proches(G, u, k): #incrémenter i quelque part
                     if acteur != u and acteur not in liste_colab_proches:
                         liste_colab_proches(acteur)
 
-
-
-                        
-
+# print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
 
