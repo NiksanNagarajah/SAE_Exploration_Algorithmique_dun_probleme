@@ -44,7 +44,19 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     except:
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
-#txt_to_json("data.txt", "data.json")
+# txt_to_json("data.txt", "data.json")
+
+def json_vers_nx(chemin):
+    G = nx.Graph()
+    json_file = json.load(open(chemin, "r"))
+    for film in json_file:
+        cast = film['cast']
+        for acteur in cast:
+            G.add_edge(film['title'], acteur)
+    nx.draw(G, with_labels=True)
+    plt.show()
+
+# print(json_vers_nx("data_2.json"))
 
 def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
     G = nx.Graph()
@@ -54,24 +66,24 @@ def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
     nx.draw(G, with_labels=True)
     plt.show()
 
-def collaborateurs_communs(fichier, acteur1, acteur2):
+def collaborateurs_communs(fichier, u, v):
     collaborateurs = set()
     colab_acteur1 = set()
     colab_acteur2 = set()
     json_file = json.load(open(fichier, "r"))
     for film in json_file:
         cast = film['cast']
-        if acteur1 in cast:
+        if u in cast:
             for acteur in cast:
-                if acteur != acteur1:
+                if acteur != u:
                     colab_acteur1.add(acteur)
-        if acteur2 in cast:
+        if v in cast:
             for acteur in cast:
-                if acteur != acteur2:
+                if acteur != v:
                     colab_acteur2.add(acteur)
     collaborateurs = colab_acteur1.intersection(colab_acteur2)
-    graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs)
+    # graphe_collaborateurs_communs(u, v, collaborateurs)
     return collaborateurs
 
-print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
+# print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
