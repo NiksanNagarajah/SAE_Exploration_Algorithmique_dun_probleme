@@ -24,6 +24,8 @@ def txt_to_json(fichier_txt, nouveau_fichier):
                     for nom in valeur:
                         nom = nom.replace("[[", "")
                         nom = nom.replace("]]", "")
+                        if "(" in nom:
+                            nom = nom[:nom.index("(") - 1]
                         liste.append(nom)
                     valeur = liste
                 ajout[cle] = valeur
