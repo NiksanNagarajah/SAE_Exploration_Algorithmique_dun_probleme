@@ -1,5 +1,14 @@
 import json
 
+def corrige_nom(nom):
+    nom = nom.replace("[[", "")
+    nom = nom.replace("]]", "")
+    if "(" in nom:
+        nom = nom[:nom.index("(") - 1]
+    if "|" in nom:
+        nom = nom[:nom.index("|")]
+    return nom
+
 def txt_to_json(fichier_txt, nouveau_fichier):
     """
     La fonction permet de convertir un fichier texte en un objet JSON.
@@ -22,10 +31,7 @@ def txt_to_json(fichier_txt, nouveau_fichier):
                 if type(valeur) == list:
                     liste = []
                     for nom in valeur:
-                        nom = nom.replace("[[", "")
-                        nom = nom.replace("]]", "")
-                        if "(" in nom:
-                            nom = nom[:nom.index("(") - 1]
+                        nom = corrige_nom(nom)
                         liste.append(nom)
                     valeur = liste
                 ajout[cle] = valeur
@@ -36,17 +42,29 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     except:
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
-# txt_to_json("data.txt", "data.json")
+txt_to_json("data.txt", "data.json")
 
-def collaborateurs_communs(G, u, v):
+def collaborateurs_communs(G, acteur1, acteur2):
     collaborateurs = set()
+    colab_acteur1 = set()
+    colab_acteur2 = set()
     json_file = json.load(open(G, "r"))
     for film in json_file:
         cast = film['cast']
-        if u in cast and v in cast:
-            for actor in cast:
-                if actor != u and actor != v:
-                    collaborateurs.add(actor)
-    return list(collaborateurs)
+        if acteur1 in cast:
+            for acteur in cast:
+                if acteur != acteur1:
+                    colab_acteur1.add(acteur)
+        if acteur2 in cast:
+            for acteur in cast:
+                if acteur != acteur2:
+                    colab_acteur2.add(acteur)
+    collaborateurs = colab_acteur1.intersection(colab_acteur2)
+    return collaborateurs
 
-print(collaborateurs_communs("data.json", "Bruce Campbell", "Ian Abercrombie"))
+# print(collaborateurs_communs("data.json", "Bruce Campbell", "Ian Abercrombie"))
+print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
+
+#res = collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")
+#for acteur in res:
+#    print(acteur)
