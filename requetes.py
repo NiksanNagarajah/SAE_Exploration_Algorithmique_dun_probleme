@@ -1,4 +1,5 @@
 import json
+import time
 
 def corrige_nom(nom):
     nom = nom.replace("[[", "")
@@ -42,9 +43,21 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     except:
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
-txt_to_json("data.txt", "data.json")
+# txt_to_json("data.txt", "data.json")
 
 def collaborateurs_communs(G, acteur1, acteur2):
+    """
+    Retourne l'ensemble des acteurs qui ont collaboré avec à la fois acteur1 et acteur2
+    dans les films répertoriés dans le fichier JSON G.
+
+    Paramètres :
+    - G : (str) Chemin vers le fichier JSON contenant les informations sur les films et leurs acteurs.
+    - acteur1 : (str) Nom de l'acteur 1.
+    - acteur2 : (str) Nom de l'acteur 2.
+
+    Returns :
+    - (set) Ensemble des acteurs qui ont collaboré avec acteur1 et acteur2.
+    """
     collaborateurs = set()
     colab_acteur1 = set()
     colab_acteur2 = set()
@@ -62,9 +75,26 @@ def collaborateurs_communs(G, acteur1, acteur2):
     collaborateurs = colab_acteur1.intersection(colab_acteur2)
     return collaborateurs
 
-# print(collaborateurs_communs("data.json", "Bruce Campbell", "Ian Abercrombie"))
 print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
 
-#res = collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")
-#for acteur in res:
-#    print(acteur)
+#6.3)
+
+def collaborateurs_proches(G, u, k): #incrémenter i quelque part
+    liste_colab_proches = []
+    json_file = json.load(open(G, "r"))
+    i = 0
+    while i <= k:
+        for film in json_file:
+            i += 1
+            cast = film['cast']
+            if u in cast:
+                for acteur in cast:
+                    if acteur != u and acteur not in liste_colab_proches:
+                        liste_colab_proches(acteur)
+
+
+
+                        
+
+
+
