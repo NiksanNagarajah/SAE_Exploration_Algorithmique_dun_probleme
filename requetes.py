@@ -119,4 +119,21 @@ def collaborateurs_proches(G, u, k): #incrémenter i quelque part
 
 # print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
+def est_proche(G,u,v,k=1):
+    lesColaborateurs = collaborateurs_proches(G, u, k)
+    if v in lesColaborateurs[k]:
+        return True
+    return False
+
+def distance_naive(G, u, v):
+    degre = 1
+    while not est_proche(G, u, v, degre):
+        degre += 1
+    return degre
+
+def distance(G, u, v):
+    degre = 1
+    while not est_proche(G, u, v, degre):
+        degre += 1
+    return degre
 
