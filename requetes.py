@@ -47,26 +47,27 @@ def txt_to_json(fichier_txt, nouveau_fichier):
 # txt_to_json("data.txt", "data.json")
 
 
-
 def json_vers_nx(chemin):
     G = nx.Graph()
     json_file = json.load(open(chemin, "r"))
     for film in json_file:
         cast = film['cast']
-        for acteur in cast:
-            G.add_edge(film['title'], acteur)
-    nx.draw(G, with_labels=True)
-    plt.show()
+        for acteur1 in cast:
+            for acteur2 in cast:
+                G.add_edge(acteur1, acteur2)
+    # nx.draw(G, with_labels=True)
+    # plt.show()
+    return G
 
-# json_vers_nx("data_2.json")
+# json_vers_nx("./data_2.json")
 
-def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
-    G = nx.Graph()
-    for acteur in collaborateurs:
-        G.add_edge(acteur1, acteur)
-        G.add_edge(acteur2, acteur)
-    nx.draw(G, with_labels=True)
-    plt.show()
+# def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
+#     G = nx.Graph()
+#     for acteur in collaborateurs:
+#         G.add_edge(acteur1, acteur)
+#         G.add_edge(acteur2, acteur)
+#     nx.draw(G, with_labels=True)
+#     plt.show()
 
 
 def collaborateurs_communs(G, u, v):
@@ -82,45 +83,54 @@ def collaborateurs_communs(G, u, v):
     Returns :
     - (set) Ensemble des acteurs qui ont collaboré avec acteur1 et acteur2.
     """
-    collaborateurs = set()
-    colab_acteur1 = set()
-    colab_acteur2 = set()
-    json_file = json.load(open(G, "r"))
-    for film in json_file:
-        cast = film['cast']
-        if u in cast:
-            for acteur in cast:
-                if acteur != u:
-                    colab_acteur1.add(acteur)
-        if v in cast:
-            for acteur in cast:
-                if acteur != v:
-                    colab_acteur2.add(acteur)
-    collaborateurs = colab_acteur1.intersection(colab_acteur2)
-    # graphe_collaborateurs_communs(u, v, collaborateurs)
-    return collaborateurs
+    try :
+        collaborateurs = set()
+        colab_acteur1 = set(G[u].keys())
+        colab_acteur2 = set(G[v].keys())
+        for acteur in colab_acteur1:
+            if acteur in colab_acteur2:
+                collaborateurs.add(acteur)
+        return collaborateurs
+    except:
+        print("Un des nom des acteurs spécifié est incorrecte ou n'est pas dans notre base de données")
+        return None
 
-
-# print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
+# print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Robert Downey Jr.", "Tom Holland"))
+# print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
 
 #6.3)
 
 def collaborateurs_proches(G, u, k):
+    ensemble_colab = set()
     dico_collab = {0 : {u}}
-    json_file = json.load(open(G, "r"))
-    ensemble_collab = set()
     for i in range(k):
         dico_collab[i+1] = set()
         for acteur in dico_collab[i]:
-            for film in json_file:
-                cast = film['cast']
-                for comedien in cast:
-                    if acteur in cast and comedien != acteur and comedien not in ensemble_collab :
-                        ensemble_collab.add(comedien)
-                        dico_collab[i+1].add(comedien)
-    return list(ensemble_collab)
+            colab = G.edges(acteur)
+            for (comedien1, comedien2) in colab:
+                if comedien1 != acteur and comedien1 not in ensemble_colab:
+                    ensemble_colab.add(comedien1)
+                    dico_collab[i+1].add(comedien1)
+                if comedien2 != acteur and comedien2 not in ensemble_colab:
+                    ensemble_colab.add(comedien2)
+                    dico_collab[i+1].add(comedien2)
+            # print(colab)
+    return dico_collab
+    # dico_collab = {0 : {u}}
+    # json_file = json.load(open(G, "r"))
+    # ensemble_collab = set()
+    # for i in range(k):
+    #     dico_collab[i+1] = set()
+    #     for acteur in dico_collab[i]:
+    #         for film in json_file:
+    #             cast = film['cast']
+    #             for comedien in cast:
+    #                 if acteur in cast and comedien != acteur and comedien not in ensemble_collab :
+    #                     ensemble_collab.add(comedien)
+    #                     dico_collab[i+1].add(comedien)
+    # return list(ensemble_collab)
 
-# print(collaborateurs_proches("data_2.json", "Rutger Hauer", 3))
+print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
 
 # {'Elizabeth Sanders', 'Pat Hingle', 'Isabella Rossellini', "Chris O'Donnell", 'Ted Raimi', 'Michael Gough', 'Sky du Mont', 'Rutger Hauer', 'Paul Reubens', 'Bruce Campbell', 'Nicole Kidman', 'Leon Vitali', 'Patrick Magee', 'Slim Pickens', 'Michael Keaton'}
 
@@ -130,8 +140,8 @@ def est_proche(G,u,v,k=1):
         return True
     return False
 
-print(est_proche("data_2.json", "Rutger Hauer", "Sean Young"))
-print(est_proche("data_2.json", "Rutger Hauer", "Jerry Hall"))
+# print(est_proche("data_2.json", "Rutger Hauer", "Sean Young"))
+# print(est_proche("data_2.json", "Rutger Hauer", "Jerry Hall"))
 
 def distance_naive(G, u, v):
     degre = 1
@@ -145,5 +155,5 @@ def distance(G, u, v):
         degre += 1
     return degre
 
-print(distance("data_2.json", "Rutger Hauer", "Sean Young"))
-print(distance("data_2.json", "Rutger Hauer", "Jerry Hall"))
+# print(distance("data_2.json", "Rutger Hauer", "Sean Young"))
+# print(distance("data_2.json", "Rutger Hauer", "Jerry Hall"))
