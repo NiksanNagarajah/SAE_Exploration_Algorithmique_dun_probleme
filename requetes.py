@@ -69,7 +69,7 @@ def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
     plt.show()
 
 def collaborateurs_communs(fichier, u, v):
-      """
+    """
     Retourne l'ensemble des acteurs qui ont collaboré avec à la fois acteur1 et acteur2
     dans les films répertoriés dans le fichier JSON G.
 
@@ -100,22 +100,27 @@ def collaborateurs_communs(fichier, u, v):
     return collaborateurs
 
 
-print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
+#print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
 
 #6.3)
 
-def collaborateurs_proches(G, u, k): #incrémenter i quelque part
-    liste_colab_proches = []
+def collaborateurs_proches(G, u, k):
+    dico_collab = {0 : {u}}
     json_file = json.load(open(G, "r"))
-    i = 0
-    while i <= k:
-        for film in json_file:
-            i += 1
-            cast = film['cast']
-            if u in cast:
-                for acteur in cast:
-                    if acteur != u and acteur not in liste_colab_proches:
-                        liste_colab_proches(acteur)
+    ensemble_collab = set()
+    for i in range(k):
+        dico_collab[i+1] = set()
+        for acteur in dico_collab[i]:
+            for film in json_file:
+                cast = film['cast']
+                for comedien in cast:
+                    if comedien != u and comedien not in ensemble_collab :
+                        ensemble_collab.add(comedien)
+                        dico_collab[i+1].add(comedien)
+    return list(ensemble_collab)
+
+print(collaborateurs_proches("data_2.json", "Núria Espert", 1))
+    
 
 # print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
