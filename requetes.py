@@ -101,11 +101,7 @@ def collaborateurs_communs(G, u, v):
     return collaborateurs
 
 
-<<<<<<< HEAD
 # print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
-=======
-#print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
->>>>>>> origin/main
 
 #6.3)
 
@@ -125,7 +121,6 @@ def collaborateurs_proches(G, u, k):
     return list(ensemble_collab)
 
 print(collaborateurs_proches("data_2.json", "Núria Espert", 1))
-    
 
 # print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
 
