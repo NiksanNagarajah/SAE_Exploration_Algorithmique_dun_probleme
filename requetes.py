@@ -68,15 +68,15 @@ def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
     nx.draw(G, with_labels=True)
     plt.show()
 
-def collaborateurs_communs(fichier, u, v):
-      """
+def collaborateurs_communs(G, u, v):
+    """
     Retourne l'ensemble des acteurs qui ont collaboré avec à la fois acteur1 et acteur2
     dans les films répertoriés dans le fichier JSON G.
 
     Paramètres :
     - G : (str) Chemin vers le fichier JSON contenant les informations sur les films et leurs acteurs.
-    - acteur1 : (str) Nom de l'acteur 1.
-    - acteur2 : (str) Nom de l'acteur 2.
+    - u : (str) Nom de l'acteur 1.
+    - v : (str) Nom de l'acteur 2.
 
     Returns :
     - (set) Ensemble des acteurs qui ont collaboré avec acteur1 et acteur2.
@@ -84,7 +84,7 @@ def collaborateurs_communs(fichier, u, v):
     collaborateurs = set()
     colab_acteur1 = set()
     colab_acteur2 = set()
-    json_file = json.load(open(fichier, "r"))
+    json_file = json.load(open(G, "r"))
     for film in json_file:
         cast = film['cast']
         if u in cast:
