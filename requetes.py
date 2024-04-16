@@ -115,24 +115,27 @@ def collaborateurs_proches(G, u, k):
             for film in json_file:
                 cast = film['cast']
                 for comedien in cast:
-                    if comedien != u and comedien not in ensemble_collab :
+                    if acteur in cast and comedien != acteur and comedien not in ensemble_collab :
                         ensemble_collab.add(comedien)
                         dico_collab[i+1].add(comedien)
     return list(ensemble_collab)
 
-print(collaborateurs_proches("data_2.json", "Núria Espert", 1))
+# print(collaborateurs_proches("data_2.json", "Rutger Hauer", 3))
 
-# print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
+# {'Elizabeth Sanders', 'Pat Hingle', 'Isabella Rossellini', "Chris O'Donnell", 'Ted Raimi', 'Michael Gough', 'Sky du Mont', 'Rutger Hauer', 'Paul Reubens', 'Bruce Campbell', 'Nicole Kidman', 'Leon Vitali', 'Patrick Magee', 'Slim Pickens', 'Michael Keaton'}
 
 def est_proche(G,u,v,k=1):
     lesColaborateurs = collaborateurs_proches(G, u, k)
-    if v in lesColaborateurs[k]:
+    if v in lesColaborateurs:
         return True
     return False
 
+print(est_proche("data_2.json", "Rutger Hauer", "Sean Young"))
+print(est_proche("data_2.json", "Rutger Hauer", "Jerry Hall"))
+
 def distance_naive(G, u, v):
     degre = 1
-    while not est_proche(G, u, v, degre):
+    while not est_proche(G, u, v, degre): # PAS MéTHODE ADAPTE (privilégié dico)
         degre += 1
     return degre
 
@@ -142,3 +145,5 @@ def distance(G, u, v):
         degre += 1
     return degre
 
+print(distance("data_2.json", "Rutger Hauer", "Sean Young"))
+print(distance("data_2.json", "Rutger Hauer", "Jerry Hall"))
