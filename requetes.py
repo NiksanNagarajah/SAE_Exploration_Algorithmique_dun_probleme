@@ -109,9 +109,9 @@ def collaborateurs_proches(G, u, k):
     json_file = json.load(open(G, "r"))
     ensemble_collab = set()
     for i in range(k):
-        dico_collab[i+1] = set()
-        for acteur in dico_collab[i]:
-            for film in json_file:
+        for film in json_file:
+            dico_collab[i+1] = set()
+            for acteur in dico_collab[i]:
                 cast = film['cast']
                 for comedien in cast:
                     if comedien != u and comedien not in ensemble_collab :
@@ -122,6 +122,4 @@ def collaborateurs_proches(G, u, k):
 print(collaborateurs_proches("data_2.json", "Núria Espert", 1))
     
 
-# print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland"))
-
-
+# print(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")
