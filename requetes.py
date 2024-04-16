@@ -100,7 +100,7 @@ def collaborateurs_communs(G, u, v):
     return collaborateurs
 
 
-print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
+# print(len(collaborateurs_communs("data.json", "Robert Downey Jr.", "Tom Holland")))
 
 #6.3)
 
