@@ -88,7 +88,7 @@ def collaborateurs_communs(G, u, v):
         colab_acteur1 = set(G[u].keys())
         colab_acteur2 = set(G[v].keys())
         for acteur in colab_acteur1:
-            if acteur in colab_acteur2:
+            if acteur in colab_acteur2 and acteur != u and acteur != v:
                 collaborateurs.add(acteur)
         return collaborateurs
     except:
@@ -115,7 +115,7 @@ def collaborateurs_proches(G, u, k):
                     ensemble_colab.add(comedien2)
                     dico_collab[i+1].add(comedien2)
             # print(colab)
-    return dico_collab
+    return ensemble_colab#list(ensemble_colab)
     # dico_collab = {0 : {u}}
     # json_file = json.load(open(G, "r"))
     # ensemble_collab = set()
@@ -130,7 +130,7 @@ def collaborateurs_proches(G, u, k):
     #                     dico_collab[i+1].add(comedien)
     # return list(ensemble_collab)
 
-print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
+# print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
 
 # {'Elizabeth Sanders', 'Pat Hingle', 'Isabella Rossellini', "Chris O'Donnell", 'Ted Raimi', 'Michael Gough', 'Sky du Mont', 'Rutger Hauer', 'Paul Reubens', 'Bruce Campbell', 'Nicole Kidman', 'Leon Vitali', 'Patrick Magee', 'Slim Pickens', 'Michael Keaton'}
 
@@ -140,8 +140,8 @@ def est_proche(G,u,v,k=1):
         return True
     return False
 
-# print(est_proche("data_2.json", "Rutger Hauer", "Sean Young"))
-# print(est_proche("data_2.json", "Rutger Hauer", "Jerry Hall"))
+# print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 def distance_naive(G, u, v):
     degre = 1
@@ -155,5 +155,5 @@ def distance(G, u, v):
         degre += 1
     return degre
 
-# print(distance("data_2.json", "Rutger Hauer", "Sean Young"))
-# print(distance("data_2.json", "Rutger Hauer", "Jerry Hall"))
+# print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
