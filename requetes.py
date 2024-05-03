@@ -115,7 +115,7 @@ def collaborateurs_proches(G, u, k):
                     ensemble_colab.add(comedien2)
                     dico_collab[i+1].add(comedien2)
             # print(colab)
-    return ensemble_colab#list(ensemble_colab)
+    return list(ensemble_colab)
     # dico_collab = {0 : {u}}
     # json_file = json.load(open(G, "r"))
     # ensemble_collab = set()
@@ -149,11 +149,53 @@ def distance_naive(G, u, v):
         degre += 1
     return degre
 
+# print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+
+
+# !!!!! Pas sur !!!!!
 def distance(G, u, v):
-    degre = 1
-    while not est_proche(G, u, v, degre):
-        degre += 1
-    return degre
+    ensemble_colab = set()
+    dico_collab = {0 : {u}}
+    # On a fixé le nombre de degré à 7 exclus car selon Kevin Bacon, le degré maximal serait de 6. 
+    for i in range(7):
+        dico_collab[i+1] = set()
+        for acteur in dico_collab[i]:
+            colab = G.edges(acteur)
+            for (comedien1, comedien2) in colab:
+                if comedien1 != acteur and comedien1 not in ensemble_colab:
+                    ensemble_colab.add(comedien1)
+                    dico_collab[i+1].add(comedien1)
+                if comedien2 != acteur and comedien2 not in ensemble_colab:
+                    ensemble_colab.add(comedien2)
+                    dico_collab[i+1].add(comedien2)
+            if v in dico_collab[i+1]:
+                return i+1
+            # print(colab)
+    return None
 
 # print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
 # print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+
+
+# 6.4)
+
+# !!!!! Pas sur !!!!!
+def centralite(G, u):
+    # return nx.degree_centrality(G)[u]
+    # ou 
+    return G.degree(u) 
+
+# print(centralite(json_vers_nx("./data_2.json"), "Rutger Hauer"))
+
+def centre_hollywood(G):
+    acteur_maxi = None
+    maxi = 0
+    for acteur in G.nodes():
+        if centralite(G, acteur) > maxi:
+            acteur_maxi = acteur
+            maxi = centralite(G, acteur)
+    return acteur_maxi
+
+# print(centre_hollywood(json_vers_nx("./data_2.json")))
+
