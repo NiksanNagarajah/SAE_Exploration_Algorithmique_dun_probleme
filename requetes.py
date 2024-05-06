@@ -26,10 +26,10 @@ def txt_to_json(fichier_txt, nouveau_fichier):
         fichier = open(fichier_txt, 'r', encoding="utf8")
         json_file = open(nouveau_fichier, 'w')
         lesLignes = fichier.readlines()
-        for ligne in lesLignes:
+        for ligne in lesLignes: #On parcourt chaque ligne dans le fichier 
             amodif = json.loads(ligne)
             ajout = {}
-            for (cle, valeur) in amodif.items():
+            for (cle, valeur) in amodif.items(): #On parcourt le dictionnaire
                 if type(valeur) == list:
                     liste = []
                     for nom in valeur:
@@ -48,9 +48,18 @@ def txt_to_json(fichier_txt, nouveau_fichier):
 
 
 def json_vers_nx(chemin):
+    """
+    La fonction permet de convertir un fichier JSON en un graphe G.
+
+    Args:
+        chemin (str): Le chemin vers le fichier JSON à convertir.
+
+    Returns:
+        G (Graphe): Le graphe représentant le contenu du fichier JSON.
+    """
     G = nx.Graph()
     json_file = json.load(open(chemin, "r"))
-    for film in json_file:
+    for film in json_file: #On parcourt chaque film du fichier json
         cast = film['cast']
         for acteur1 in cast:
             for acteur2 in cast:
@@ -76,8 +85,7 @@ def collaborateurs_communs(G, u, v):
     dans les films répertoriés dans le fichier JSON G.
 
     Paramètres :
-    - G : (str) Chemin vers le fichier JSON contenant les informations sur les films et leurs acteurs.
-    - u : (str) Nom de l'acteur 1.
+    - G : (Graph) Graphe considéré.
     - v : (str) Nom de l'acteur 2.
 
     Returns :
@@ -135,6 +143,19 @@ def collaborateurs_proches(G, u, k):
 # {'Elizabeth Sanders', 'Pat Hingle', 'Isabella Rossellini', "Chris O'Donnell", 'Ted Raimi', 'Michael Gough', 'Sky du Mont', 'Rutger Hauer', 'Paul Reubens', 'Bruce Campbell', 'Nicole Kidman', 'Leon Vitali', 'Patrick Magee', 'Slim Pickens', 'Michael Keaton'}
 
 def est_proche(G,u,v,k=1):
+    """
+    La fonction permet de savoir si le collaborateur 'u' est proche de 'v'.
+
+    Paramètres :
+
+    - G : (Graph) Graphe considéré.
+    - u : (str) Nom de l'acteur 1.
+    - v : (str) Nom de l'acteur 2.
+    - k : (int) distance proche
+
+    Returns:
+        (bool): True si la distance entre les 2 acteurs est considéré comme proche.
+    """
     lesColaborateurs = collaborateurs_proches(G, u, k)
     if v in lesColaborateurs:
         return True
@@ -155,6 +176,18 @@ def distance_naive(G, u, v):
 
 # !!!!! Pas sur !!!!!
 def distance(G, u, v):
+    """
+    La fonction permet trouver la distance entre 2 acteurs.
+
+    Paramètres :
+
+    - G : (Graph) Graphe considéré.
+    - u : (str) Nom de l'acteur 1.
+    - v : (str) Nom de l'acteur 2.
+
+    Returns:
+        (int): La distance entre les 2 acteurs.
+    """
     ensemble_colab = set()
     dico_collab = {0 : {u}}
     # On a fixé le nombre de degré à 7 exclus car selon Kevin Bacon, le degré maximal serait de 6. 
@@ -198,4 +231,19 @@ def centre_hollywood(G):
     return acteur_maxi
 
 # print(centre_hollywood(json_vers_nx("./data_2.json")))
+
+#6.5)
+
+def eloignement_max(G:nx.Graph):
+    """
+    La fonction permet de determiner la distance maximum dans G entre
+    toute paire d’acteurs/actrices.
+
+    Args:
+        G (Graph): Le graphe représentant considéré.
+
+    Returns:
+        ensemble_final (set) : ensemble de tuples d'acteurs qui ont la disatnce maximale.
+    """
+    ensemble_final = set()
 
