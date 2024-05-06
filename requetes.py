@@ -100,35 +100,45 @@ def collaborateurs_communs(G, u, v):
 
 #6.3)
 
-def collaborateurs_proches(G, u, k):
-    ensemble_colab = set()
-    dico_collab = {0 : {u}}
+# def collaborateurs_proches(G, u, k):
+#     ensemble_colab = set()
+#     dico_collab = {0 : {u}}
+#     for i in range(k):
+#         dico_collab[i+1] = set()
+#         for acteur in dico_collab[i]:
+#             colab = G.edges(acteur)
+#             for (comedien1, comedien2) in colab:
+#                 if comedien1 != acteur and comedien1 not in ensemble_colab:
+#                     ensemble_colab.add(comedien1)
+#                     dico_collab[i+1].add(comedien1)
+#                 if comedien2 != acteur and comedien2 not in ensemble_colab:
+#                     ensemble_colab.add(comedien2)
+#                     dico_collab[i+1].add(comedien2)
+#     return list(ensemble_colab)
+
+# Code donné 
+def collaborateurs_proches(G,u,k):
+    """Fonction renvoyant l'ensemble des acteurs à distance au plus k de l'acteur u dans le graphe G. La fonction renvoie None si u est absent du graphe.
+    
+    Parametres:
+        G: le graphe
+        u: le sommet de départ
+        k: la distance depuis u
+    """
+    if u not in G.nodes:
+        print(u,"est un illustre inconnu")
+        return None
+    collaborateurs = set()
+    collaborateurs.add(u)
+    print(collaborateurs)
     for i in range(k):
-        dico_collab[i+1] = set()
-        for acteur in dico_collab[i]:
-            colab = G.edges(acteur)
-            for (comedien1, comedien2) in colab:
-                if comedien1 != acteur and comedien1 not in ensemble_colab:
-                    ensemble_colab.add(comedien1)
-                    dico_collab[i+1].add(comedien1)
-                if comedien2 != acteur and comedien2 not in ensemble_colab:
-                    ensemble_colab.add(comedien2)
-                    dico_collab[i+1].add(comedien2)
-            # print(colab)
-    return list(ensemble_colab)
-    # dico_collab = {0 : {u}}
-    # json_file = json.load(open(G, "r"))
-    # ensemble_collab = set()
-    # for i in range(k):
-    #     dico_collab[i+1] = set()
-    #     for acteur in dico_collab[i]:
-    #         for film in json_file:
-    #             cast = film['cast']
-    #             for comedien in cast:
-    #                 if acteur in cast and comedien != acteur and comedien not in ensemble_collab :
-    #                     ensemble_collab.add(comedien)
-    #                     dico_collab[i+1].add(comedien)
-    # return list(ensemble_collab)
+        collaborateurs_directs = set()
+        for c in collaborateurs:
+            for voisin in G.adj[c]:
+                if voisin not in collaborateurs:
+                    collaborateurs_directs.add(voisin)
+        collaborateurs = collaborateurs.union(collaborateurs_directs)
+    return collaborateurs
 
 # print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
 
@@ -157,8 +167,8 @@ def distance_naive(G, u, v):
 def distance(G, u, v):
     ensemble_colab = set()
     dico_collab = {0 : {u}}
-    # On a fixé le nombre de degré à 7 exclus car selon Kevin Bacon, le degré maximal serait de 6. 
-    for i in range(7):
+    i = 0
+    while dico_collab[i] != set():
         dico_collab[i+1] = set()
         for acteur in dico_collab[i]:
             colab = G.edges(acteur)
@@ -172,6 +182,7 @@ def distance(G, u, v):
             if v in dico_collab[i+1]:
                 return i+1
             # print(colab)
+        i += 1
     return None
 
 # print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
@@ -199,3 +210,25 @@ def centre_hollywood(G):
 
 # print(centre_hollywood(json_vers_nx("./data_2.json")))
 
+def eloignement_max(G:nx.Graph):
+    """
+    Retourne les paires d'acteurs les plus éloignés dans le graphe G.
+
+    Args:
+        G (nx.Graph): Le graphe des acteurs.
+
+    Returns:
+        set: Les paires d'acteurs les plus éloignés.
+    """
+    max_distance = 0
+    acteurs_eloigner = set()
+    for acteur1 in G.nodes():
+        for acteur2 in G.nodes():
+            if acteur1 != acteur2:
+                distance_acteurs = distance(G, acteur1, acteur2)
+                if distance_acteurs != None and distance_acteurs > max_distance:
+                    max_distance = distance_acteurs
+                    acteurs_eloigner.add((acteur1, acteur2))
+    return acteurs_eloigner
+
+# print(eloignement_max(json_vers_nx("./data_2.json")))
