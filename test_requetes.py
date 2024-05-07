@@ -28,6 +28,3 @@ def test_est_proche():
     assert req.est_proche(req.json_vers_nx("./data_2.json"), "Slim Pickens", "Shane Rimmer") is True
     assert req.est_proche(req.json_vers_nx("./data_2.json"), "Lutz Schnell", "Betsy Baker") is False
     assert req.est_proche(req.json_vers_nx("./data_2.json"), "Bill Shine", "John Miller") is True
-
-#tests 
-    
