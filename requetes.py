@@ -138,7 +138,7 @@ def collaborateurs_proches(G,u,k):
         return None
     collaborateurs = set()
     collaborateurs.add(u)
-    print(collaborateurs)
+    # print(collaborateurs)
     for i in range(k):
         collaborateurs_directs = set()
         for c in collaborateurs:
@@ -149,8 +149,6 @@ def collaborateurs_proches(G,u,k):
     return collaborateurs
 
 # print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
-
-# {'Elizabeth Sanders', 'Pat Hingle', 'Isabella Rossellini', "Chris O'Donnell", 'Ted Raimi', 'Michael Gough', 'Sky du Mont', 'Rutger Hauer', 'Paul Reubens', 'Bruce Campbell', 'Nicole Kidman', 'Leon Vitali', 'Patrick Magee', 'Slim Pickens', 'Michael Keaton'}
 
 def est_proche(G,u,v,k=1):
     """
