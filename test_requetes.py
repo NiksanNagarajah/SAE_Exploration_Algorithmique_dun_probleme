@@ -20,3 +20,14 @@ def test_collaborateurs_proches():
     assert req.collaborateurs_proches(req.json_vers_nx("data_2.json"), "Warren Hymer", 1) == {'Brian Donlevy', 'James Stewart', 'Billy Gilbert', 'Tom Fadden', 'Marlene Dietrich', 'Mischa Auer', 'Ann E. Todd', 'Irene Hervey', 'Samuel S. Hinds', 'Una Merkel', 'Lillian Yarbo', 'Warren Hymer', 'Charles Winninger', 'Jack Carson', 'Edmund MacDonald', 'Virginia Brissac', 'Allen Jenkins', 'Dick Jones', 'Joe King'}
     assert req.collaborateurs_proches(req.json_vers_nx("data_2.json"), "Ken Baker", 4) == {'David Margulies', 'Anthony Boyd Scriven', 'Brandon Maggart', 'Angie Dickinson', 'Frederick Sanders', 'Ken Baker', 'Dennis Franz', 'Robert McDuffie', 'Keith Gordon', 'Susanna Clemm', 'Anneka Di Lorenzo', 'William Finley', 'Nancy Allen', 'Robert Lee Rush', 'Michael Caine'}
    
+# tests est_proche
+
+def test_est_proche():
+    assert req.est_proche(req.json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young") is True
+    assert req.est_proche(req.json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall") is False
+    assert req.est_proche(req.json_vers_nx("./data_2.json"), "Slim Pickens", "Shane Rimmer") is True
+    assert req.est_proche(req.json_vers_nx("./data_2.json"), "Lutz Schnell", "Betsy Baker") is False
+    assert req.est_proche(req.json_vers_nx("./data_2.json"), "Bill Shine", "John Miller") is True
+
+#tests 
+    
