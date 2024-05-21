@@ -45,6 +45,8 @@ def txt_to_json(fichier_txt, nouveau_fichier):
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
 # txt_to_json("data.txt", "data.json")
+# txt_to_json("data_100.txt", "data_100.json")
+
 
 
 def json_vers_nx(chemin):
@@ -149,6 +151,7 @@ def collaborateurs_proches(G,u,k):
     return collaborateurs
 
 # print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
+# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Jay Mohr", 1))
 
 def est_proche(G,u,v,k=1):
     """
@@ -165,21 +168,25 @@ def est_proche(G,u,v,k=1):
         (bool): True si la distance entre les 2 acteurs est considéré comme proche.
     """
     lesColaborateurs = collaborateurs_proches(G, u, k)
-    if v in lesColaborateurs:
-        return True
+    if lesColaborateurs != None:
+        if v in lesColaborateurs:
+            return True
     return False
 
 # print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
 # print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 def distance_naive(G, u, v):
+    if u not in G.nodes() or v not in G.nodes():
+        return None
     degre = 1
     while not est_proche(G, u, v, degre): # PAS MéTHODE ADAPTE (privilégié dico)
         degre += 1
     return degre
 
-# print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+print(distance_naive(json_vers_nx("./data_100.json"), "Sam Raimi", "Anne Francis"))
 # print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+
 
 
 # !!!!! Pas sur !!!!!
