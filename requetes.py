@@ -184,7 +184,7 @@ def distance_naive(G, u, v):
         degre += 1
     return degre
 
-print(distance_naive(json_vers_nx("./data_100.json"), "Sam Raimi", "Anne Francis"))
+# print(distance_naive(json_vers_nx("./data_100.json"), "Sam Raimi", "Anne Francis"))
 # print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
@@ -223,7 +223,7 @@ def distance(G, u, v):
         i += 1
     return None
 
-# print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+print(distance(json_vers_nx("./data_100.json"), "Rutger Hauer", "Sean Young"))
 # print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
