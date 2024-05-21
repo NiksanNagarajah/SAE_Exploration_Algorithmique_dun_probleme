@@ -139,7 +139,7 @@ def collaborateurs_proches(G,u,k):
         print(u,"est un illustre inconnu")
         return None
     collaborateurs = set()
-    # collaborateurs.add(u)
+    collaborateurs.add(u)
     # print(collaborateurs)
     for i in range(k):
         collaborateurs_directs = set()
@@ -151,7 +151,7 @@ def collaborateurs_proches(G,u,k):
     return collaborateurs
 
 # print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
-# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Jay Mohr", 1))
+# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Ken Baker", 0))
 
 def est_proche(G,u,v,k=1):
     """

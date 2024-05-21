@@ -51,6 +51,8 @@ def debuter():
             print("│ C: Changer de base de ...│")
             print("│ V: Voir graph de la base │")
             print("│ M: Collaborateurs communs│")
+            print("│ P: Collaborateurs proches│")
+            print("│ S: Sont proches ?        │")
         else:
             print("│ C: Choisir une base de...│")
             print("│ U: Utiliser notre base   │")
@@ -75,6 +77,8 @@ def debuter():
             collab_communs(G)
         elif base_choisie is True and commande == "p":
             collab_proches(G)
+        elif base_choisie is True and commande == "s":
+            sont_proches(G)
         elif commande == "q":
             commnde_faite = True
             print("\nAu revoir !")
@@ -97,14 +101,25 @@ def collab_communs(G):
         print(collaborateurs)
 
 def collab_proches(G):
-    acteur = input("Entrez le nom de l'acteur\n")
-    distance = input("Entrez la distance souhaitée\n")
-    collaborateurs = req.collaborateurs_proches(G, acteur, int(distance))
-    if collaborateurs == set():
-        print("Aucun acteur n'a collaboré avec", acteur, "à une distance de", distance)
-    elif collaborateurs is not None:
-        print("Les acteurs qui ont collaboré avec", acteur, "à une distance de", distance, "sont:")
-        print(collaborateurs)
+    try:
+        acteur = input("Entrez le nom de l'acteur\n")
+        distance = input("Entrez la distance souhaitée\n")
+        collaborateurs = req.collaborateurs_proches(G, acteur, int(distance))
+        if collaborateurs == set():
+            print("Aucun acteur n'a collaboré avec", acteur, "à une distance de", distance)
+        elif collaborateurs is not None:
+            print("Les acteurs qui ont collaboré avec", acteur, "à une distance de", distance, "sont:")
+            print(collaborateurs)
+    except:
+        print("Le nombre choisi n'est pas valide.\n")
+
+def sont_proches(G):
+    acteur1 = input("Entrez le nom du premier acteur\n")
+    acteur2 = input("Entrez le nom du deuxième acteur\n")
+    if req.est_proche(G, acteur1, acteur2):
+        print("Les acteurs", acteur1, "et", acteur2, "sont proches\n")
+    else:
+        print("Les acteurs", acteur1, "et", acteur2, "ne sont pas proches\n")        
 
 def lancer_application():
     print("Bienvenue dans l'application \"A la conquête de Hollywood\" !")

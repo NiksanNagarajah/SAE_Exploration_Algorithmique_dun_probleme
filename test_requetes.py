@@ -16,7 +16,7 @@ def test_collaborateurs_communs():
 def test_collaborateurs_proches():
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Rutger Hauer", 3) is None
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Diane Venora", 1) == {'Rip Torn', 'Kim Staunton', 'Ray Buktenica', 'Natalie Portman', 'Tom Sizemore', 'Philip Baker Hall', 'William Fichtner', 'Kevin Gage', 'Henry Rollins', 'Gary Sandy', 'Gina Gershon', 'Bruce McGill', 'Ashley Judd', 'Jerry Trimble', 'Amy Brenneman', 'Al Pacino', 'Cliff Curtis', 'Danny Trejo', 'Mike Moore', 'Robert De Niro', 'Dennis Haysbert', 'Xander Berkeley', 'Colm Feore', 'Tom Noonan', 'Russell Crowe', 'Mykelti Williamson', 'Ted Levine', 'Jeremy Piven', 'Tone Loc', 'Debi Mazar', 'Lindsay Crouse', 'Jack Palladino', 'Stephen Tobolowsky', 'Val Kilmer', 'Christopher Plummer', 'Hallie Kate Eisenberg', 'Diane Venora', 'Michael Gambon', 'Hank Azaria', 'Jon Voight', 'Roger Bart', 'Ricky Harris', 'Wes Studi', 'Renee Olstead', 'Susan Traylor'}
-    assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Robert MacLeod", 0) == set()
+    assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Robert MacLeod", 0) == {"Robert MacLeod"} #set() #
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Jay Mohr", 1) == {'Winona Ryder', 'Jason Schwartzman', 'Pruitt Taylor Vince', 'Elias Koteas', 'Catherine Keener', 'Rebecca Romijn', 'Joel Heyman', 'Evan Rachel Wood', 'Jay Mohr', 'Rachel Roberts', 'Kelly Anna Cox', 'Al Pacino'}
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Ken Baker", 1) is None
    
