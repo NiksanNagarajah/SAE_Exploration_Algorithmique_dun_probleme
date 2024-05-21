@@ -272,5 +272,4 @@ def eloignement_max(G:nx.Graph):
     return len(acteurs_eloigner)
 
 # print(eloignement_max(json_vers_nx("./data_100.json")))
-
-
+# print(eloignement_max(json_vers_nx("./data_100.json")))
