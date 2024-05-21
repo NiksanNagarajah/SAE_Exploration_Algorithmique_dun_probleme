@@ -20,7 +20,7 @@ def test_collaborateurs_proches():
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Jay Mohr", 1) == {'Winona Ryder', 'Jason Schwartzman', 'Pruitt Taylor Vince', 'Elias Koteas', 'Catherine Keener', 'Rebecca Romijn', 'Joel Heyman', 'Evan Rachel Wood', 'Jay Mohr', 'Rachel Roberts', 'Kelly Anna Cox', 'Al Pacino'}
     assert req.collaborateurs_proches(req.json_vers_nx("./data_100.json"), "Ken Baker", 1) is None
    
-# # tests est_proche
+# tests est_proche
 
 def test_est_proche():
     assert req.est_proche(req.json_vers_nx("./data_100.json"), "Diane Venora", "Philip Baker Hall") is True
@@ -29,7 +29,7 @@ def test_est_proche():
     assert req.est_proche(req.json_vers_nx("./data_100.json"), "Catherine Gaffigan", "Julia Stiles") is False
     assert req.est_proche(req.json_vers_nx("./data_100.json"), "Vicki Wauchope", "Dave Goelz") is False
 
-# #tests distance_proche
+# tests distance_proche
 
 def test_distance_naive():
     assert req.distance_naive(req.json_vers_nx("./data_100.json"), "Rutger Hauer", "Sean Young") is None #un ou plusieurs acteurs n'existent pas dans le graphe
@@ -37,3 +37,24 @@ def test_distance_naive():
     assert req.distance_naive(req.json_vers_nx("./data_100.json"), "Randi Brooks", "Milton Berle") == 2
     assert req.distance_naive(req.json_vers_nx("./data_100.json"), "Charles Durning", "Dom DeLuise") == 1
     assert req.distance_naive(req.json_vers_nx("./data_100.json"), "Sam Raimi", "Anne Francis") == 3
+
+# tests distance
+
+def test_distance():
+    assert req.distance(req.json_vers_nx("./data_100.json"), "Rutger Hauer", "Sean Young") is None
+    assert req.distance(req.json_vers_nx("./data_100.json"), "Donnie Wahlberg", "James Broderick") == 2
+    assert req.distance(req.json_vers_nx("./data_100.json"), "Judy Tucker", "Marcia Jean Kurtz") == 2
+    assert req.distance(req.json_vers_nx("./data_100.json"), "Neal McDonough", "Neal McDonough") == 0 #ce sont les mêmes acteurs donc la distance est à 0
+    assert req.distance(req.json_vers_nx("./data_100.json"), "Ben McKenzie", "Elizabeth Hubbard") == 3 
+
+# tests centralite
+
+# def test_centralite():
+#     assert req.centralite(req.json_vers_nx("./data_100.json"), "John Hofman") == [] #il n'existe pas dans le graphe
+#     assert req.centralite(req.json_vers_nx("./data_100.json"), "Robert Gerringer") == 12
+#     assert req.centralite(req.json_vers_nx("./data_100.json"), "Richard Cox") == 26
+#     assert req.centralite(req.json_vers_nx("./data_100.json"), "Gene Hackman") == 35
+#     assert req.centralite(req.json_vers_nx("./data_100.json"), "Al Pacino") == 814
+
+# tests centre_hollywood
+
