@@ -273,7 +273,4 @@ def eloignement_max(G:nx.Graph):
 
 # print(eloignement_max(json_vers_nx("./data_100.json")))
 
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/Niksan
