@@ -139,7 +139,7 @@ def collaborateurs_proches(G,u,k):
         print(u,"est un illustre inconnu")
         return None
     collaborateurs = set()
-    # collaborateurs.add(u)
+    collaborateurs.add(u)
     # print(collaborateurs)
     for i in range(k):
         collaborateurs_directs = set()
@@ -151,7 +151,7 @@ def collaborateurs_proches(G,u,k):
     return collaborateurs
 
 # print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
-# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Jay Mohr", 1))
+# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Ken Baker", 0))
 
 def est_proche(G,u,v,k=1):
     """
@@ -203,6 +203,8 @@ def distance(G, u, v):
     Returns:
         (int): La distance entre les 2 acteurs.
     """
+    if u == v:
+        return 0
     ensemble_colab = set()
     dico_collab = {0 : {u}}
     i = 0
@@ -223,7 +225,7 @@ def distance(G, u, v):
         i += 1
     return None
 
-# print(distance(json_vers_nx("./data_100.json"), "Rutger Hauer", "Sean Young"))
+# print(distance(json_vers_nx("./data_100.json"), "Ben McKenzie", "Elizabeth Hubbard"))
 # print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
@@ -235,7 +237,7 @@ def centralite(G, u):
     # ou 
     return G.degree(u) 
 
-# print(centralite(json_vers_nx("./data_2.json"), "Rutger Hauer"))
+# print(centralite(json_vers_nx("./data_100.json"), "Robert Gerringer"))
 
 def centre_hollywood(G):
     acteur_maxi = None
@@ -270,3 +272,4 @@ def eloignement_max(G:nx.Graph):
     return len(acteurs_eloigner)
 
 # print(eloignement_max(json_vers_nx("./data_100.json")))
+
