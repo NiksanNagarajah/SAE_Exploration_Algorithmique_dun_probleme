@@ -102,7 +102,7 @@ def collaborateurs_communs(G, u, v):
                 collaborateurs.add(acteur)
         return collaborateurs
     except:
-        print("Un des nom des acteurs spécifié est incorrecte ou n'est pas dans notre base de données")
+        print("Un des noms des acteurs spécifié est incorrecte ou n'est pas dans notre base de données\n")
         return None
 
 # print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Robert Downey Jr.", "Tom Holland"))
@@ -139,13 +139,13 @@ def collaborateurs_proches(G,u,k):
         print(u,"est un illustre inconnu")
         return None
     collaborateurs = set()
-    collaborateurs.add(u)
+    # collaborateurs.add(u)
     # print(collaborateurs)
     for i in range(k):
         collaborateurs_directs = set()
         for c in collaborateurs:
             for voisin in G.adj[c]:
-                if voisin not in collaborateurs:
+                if voisin not in collaborateurs and voisin != u:
                     collaborateurs_directs.add(voisin)
         collaborateurs = collaborateurs.union(collaborateurs_directs)
     return collaborateurs
@@ -269,6 +269,8 @@ def eloignement_max(G:nx.Graph):
                 if distance_acteurs != None and distance_acteurs > max_distance:
                     max_distance = distance_acteurs
                     acteurs_eloigner.add((acteur1, acteur2))
-    return acteurs_eloigner
+    return len(acteurs_eloigner)
 
-print(eloignement_max(json_vers_nx("./data_100.json")))
+# print(eloignement_max(json_vers_nx("./data_100.json")))
+
+
