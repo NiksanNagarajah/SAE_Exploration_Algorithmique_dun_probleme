@@ -5,14 +5,14 @@ import matplotlib.pyplot as plt
 def menu_principale():
     commnde_faite = False
     while not commnde_faite:
-        print("╭─────────────────────────╮")
-        print("│      Menu principal     │")
-        print("│─────────────────────────│")
-        print("│ P: Présentation appli   │")
-        print("│ D: Débuter              │")
-        print("│ W: Qui sommes nous ?    │")
-        print("│ Q: Quitter              │")
-        print("╰─────────────────────────╯")
+        print("╭──────────────────────────╮")
+        print("│      Menu principal      │")
+        print("│──────────────────────────│")
+        print("│ P: Présentation appli    │")
+        print("│ D: Débuter               │")
+        print("│ W: Qui sommes nous ?     │")
+        print("│ Q: Quitter               │")
+        print("╰──────────────────────────╯")
         commande_brute = input("")# input("Entrez une commande: ")
         commande = commande_brute.lower()
         if commande == "p":
@@ -33,7 +33,7 @@ def menu_principale():
 
 def presentation():
     ######### A MODIFIER #########
-    print("L'application A la conquête de Hollywood est une application qui permet de retrouver les acteurs qui ont collaboré ensemble dans des films. Elle est basée sur un graphe qui représente les collaborations entre acteurs. Vous pouvez rechercher des acteurs et voir avec qui ils ont collaboré.\n")
+    print("L'application \"A la conquête de Hollywood\" est une application qui permet de retrouver les acteurs qui ont collaboré ensemble dans des films. Elle est basée sur un graphe qui représente les collaborations entre acteurs. Vous pouvez rechercher des acteurs et voir avec qui ils ont collaboré.\n")
 
 def qui_sommes_nous():
     ######### A MODIFIER #########
@@ -44,29 +44,40 @@ def debuter():
     base_choisie = False
     G = None
     while not commnde_faite:
-        print("╭─────────────────────────╮")
-        print("│      Menu principal     │")
-        print("│─────────────────────────│")
+        print("╭──────────────────────────╮")
+        print("│      Menu principal      │")
+        print("│──────────────────────────│")
         if base_choisie:
-            print("│ C: Changer de base de...│")
-            print("│ V: Voir graph de la base│")
+            print("│ C: Changer de base de ...│")
+            print("│ V: Voir graph de la base │")
+            print("│ M: Collaborateurs communs│")
         else:
-            print("│ C: Choisir une base d...│")
-            print("│ U: Utiliser notre base  │")
+            print("│ C: Choisir une base de...│")
+            print("│ U: Utiliser notre base   │")
         
-        print("│ Q: Quitter              │")
-        print("╰─────────────────────────╯")
+        print("│ Q: Quitter               │")
+        print("╰──────────────────────────╯")
         commande_brute = input("")# input("Entrez une commande: ")
         commande = commande_brute.lower()
         if commande == "c":
-            G = choose_file()
-            base_choisie = True
+            try:
+                G = choose_file()
+                base_choisie = True
+            except FileNotFoundError:
+                print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
         elif commande == "u":
-            G = req.json_vers_nx("./data_2.json")
+            G = req.json_vers_nx("./data_100.json")
             base_choisie = True
         elif base_choisie is True and commande == "v":
             nx.draw(G, with_labels=True)
             plt.show()
+        elif base_choisie is True and commande == "m":
+            acteur1 = input("Entrez le nom du premier acteur\n")
+            acteur2 = input("Entrez le nom du deuxième acteur\n")
+            collaborateurs = req.collaborateurs_communs(G, acteur1, acteur2)
+            if collaborateurs is not None:
+                print("Les acteurs qui ont collaboré avec", acteur1, "et", acteur2, "sont:")
+                print(collaborateurs + "\n")
         elif commande == "q":
             commnde_faite = True
             print("\nAu revoir !")
@@ -79,7 +90,7 @@ def choose_file():
     return req.json_vers_nx(chemin)
 
 def lancer_application():
-    print("Bienvenue dans l'application A la conquête de Hollywood !")
+    print("Bienvenue dans l'application \"A la conquête de Hollywood\" !")
     menu_principale()
 
 lancer_application()

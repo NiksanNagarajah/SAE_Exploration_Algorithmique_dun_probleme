@@ -100,7 +100,7 @@ def collaborateurs_communs(G, u, v):
                 collaborateurs.add(acteur)
         return collaborateurs
     except:
-        print("Un des nom des acteurs spécifié est incorrecte ou n'est pas dans notre base de données")
+        print("Un des noms des acteurs spécifié est incorrecte ou n'est pas dans notre base de données\n")
         return None
 
 # print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Robert Downey Jr.", "Tom Holland"))
