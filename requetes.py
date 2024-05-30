@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def corrige_nom(nom):
+    #Complexité : O(N)
     nom = nom.replace("[[", "")
     nom = nom.replace("]]", "")
     if "(" in nom:
@@ -21,6 +22,7 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     Returns:
         dict: L'objet JSON représentant le contenu du fichier texte.
     """
+    #Complexité : O(N)³
     try:
         donnees = [] 
         fichier = open(fichier_txt, 'r', encoding="utf8")
@@ -59,12 +61,13 @@ def json_vers_nx(chemin):
     Returns:
         G (Graphe): Le graphe représentant le contenu du fichier JSON.
     """
+    #Complexité : O(N)³
     G = nx.Graph()
     json_file = json.load(open(chemin, "r"))
-    for film in json_file: #On parcourt chaque film du fichier json
+    for film in json_file: #On parcourt chaque film du fichier json : O(N)
         cast = film['cast']
-        for acteur1 in cast:
-            for acteur2 in cast:
+        for acteur1 in cast: #O(N)
+            for acteur2 in cast: #O(N)
                 G.add_edge(acteur1, acteur2)
     # nx.draw(G, with_labels=True)
     # plt.show()
@@ -93,11 +96,12 @@ def collaborateurs_communs(G, u, v):
     Returns :
     - (set) Ensemble des acteurs qui ont collaboré avec acteur1 et acteur2.
     """
+    #Complexité : O(N)
     try :
         collaborateurs = set()
         colab_acteur1 = set(G[u].keys())
         colab_acteur2 = set(G[v].keys())
-        for acteur in colab_acteur1:
+        for acteur in colab_acteur1: #O(N)
             if acteur in colab_acteur2 and acteur != u and acteur != v:
                 collaborateurs.add(acteur)
         return collaborateurs
@@ -135,16 +139,19 @@ def collaborateurs_proches(G,u,k):
         u: le sommet de départ
         k: la distance depuis u
     """
+    #Complexité : O(N)³
     if u not in G.nodes:
         print(u,"est un illustre inconnu")
         return None
+    if k == 0:
+        return set()
     collaborateurs = set()
     collaborateurs.add(u)
     # print(collaborateurs)
-    for i in range(k):
+    for i in range(k):# O(N)
         collaborateurs_directs = set()
-        for c in collaborateurs:
-            for voisin in G.adj[c]:
+        for c in collaborateurs: # O(N)
+            for voisin in G.adj[c]: # O(N)
                 if voisin not in collaborateurs and voisin != u:
                     collaborateurs_directs.add(voisin)
         collaborateurs = collaborateurs.union(collaborateurs_directs)
@@ -167,7 +174,8 @@ def est_proche(G,u,v,k=1):
     Returns:
         (bool): True si la distance entre les 2 acteurs est considéré comme proche.
     """
-    lesColaborateurs = collaborateurs_proches(G, u, k)
+    #Complexité : O(N)³
+    lesColaborateurs = collaborateurs_proches(G, u, k) #O(N)³ : appel de la fonction précédente
     if lesColaborateurs != None:
         if v in lesColaborateurs:
             return True
