@@ -73,7 +73,8 @@ def json_vers_nx(chemin):
     # plt.show()
     return G
 
-# json_vers_nx("./data_2.json")
+# json_vers_nx("./donnees/data_2.json")
+# json_vers_nx("./donnees/data_100.json")
 
 # def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
 #     G = nx.Graph()
@@ -83,6 +84,7 @@ def json_vers_nx(chemin):
 #     nx.draw(G, with_labels=True)
 #     plt.show()
 
+G = json_vers_nx("./donnees/data_100.json")
 
 def collaborateurs_communs(G, u, v):
     """
@@ -109,8 +111,8 @@ def collaborateurs_communs(G, u, v):
         print("Un des noms des acteurs spécifié est incorrecte ou n'est pas dans notre base de données\n")
         return None
 
-# print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Robert Downey Jr.", "Tom Holland"))
-# print(collaborateurs_communs(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(collaborateurs_communs(json_vers_nx("./donnees/data_2.json"), "Robert Downey Jr.", "Tom Holland"))
+# print(collaborateurs_communs(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Sean Young"))
 
 #6.3)
 
@@ -143,8 +145,8 @@ def collaborateurs_proches(G,u,k):
     if u not in G.nodes:
         print(u,"est un illustre inconnu")
         return None
-    if k == 0:
-        return set()
+    # if k == 0:
+    #     return set()
     collaborateurs = set()
     collaborateurs.add(u)
     # print(collaborateurs)
@@ -157,8 +159,8 @@ def collaborateurs_proches(G,u,k):
         collaborateurs = collaborateurs.union(collaborateurs_directs)
     return collaborateurs
 
-# print(collaborateurs_proches(json_vers_nx("data_2.json"), "Rutger Hauer", 3))
-# print(collaborateurs_proches(json_vers_nx("./data_100.json"), "Ken Baker", 0))
+# print(collaborateurs_proches(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", 3))
+# print(collaborateurs_proches(json_vers_nx("./donnees/data_100.json"), "Ken Baker", 0))
 
 def est_proche(G,u,v,k=1):
     """
@@ -181,8 +183,8 @@ def est_proche(G,u,v,k=1):
             return True
     return False
 
-# print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Sean Young"))
-# print(est_proche(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+# print(est_proche(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(est_proche(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 def distance_naive(G, u, v):
     if u not in G.nodes() or v not in G.nodes():
@@ -192,8 +194,8 @@ def distance_naive(G, u, v):
         degre += 1
     return degre
 
-# print(distance_naive(json_vers_nx("./data_100.json"), "Sam Raimi", "Anne Francis"))
-# print(distance_naive(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+# print(distance_naive(json_vers_nx("./donnees/data_100.json"), "Sam Raimi", "Anne Francis"))
+# print(distance_naive(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
 
@@ -233,30 +235,54 @@ def distance(G, u, v):
         i += 1
     return None
 
-# print(distance(json_vers_nx("./data_100.json"), "Ben McKenzie", "Elizabeth Hubbard"))
-# print(distance(json_vers_nx("./data_2.json"), "Rutger Hauer", "Jerry Hall"))
+# print(distance(json_vers_nx("./donnees/data_100.json"), "Ben McKenzie", "Elizabeth Hubbard"))
+# print(distance(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
 # 6.4)
 
 # !!!!! Pas sur !!!!!
 def centralite(G, u):
-    # return nx.degree_centrality(G)[u]
-    # ou 
-    return G.degree(u) 
+    if u not in G.nodes():
+        return None
+    # # return G.degree(u) 
+    # # ou
+    # lengths = nx.shortest_path_length(G, source=u)
+    # return max(lengths.values())
+    distances = {u : 0} # Parcours en largeur 
+    a_faire = [u]
+    while a_faire:
+        courant = a_faire.pop(0)
+        distance_actuel = distances[courant]
+        for voisin in G.neighbors(courant):
+            if voisin not in distances.keys():
+                distances[voisin] = distance_actuel + 1
+                a_faire.append(voisin)
+    return max(distances.values())
 
-# print(centralite(json_vers_nx("./data_100.json"), "Robert Gerringer"))
+# print(centralite(json_vers_nx("./donnees/data_100.json"), "Robert Gerringer"))
 
 def centre_hollywood(G):
-    acteur_maxi = None
-    maxi = 0
+    # acteur_maxi = None
+    # maxi = 0
+    # for acteur in G.nodes():
+    #     if centralite(G, acteur) > maxi:
+    #         acteur_maxi = acteur
+    #         maxi = centralite(G, acteur)
+    # return acteur_maxi, maxi
+    les_centralites = {}
     for acteur in G.nodes():
-        if centralite(G, acteur) > maxi:
-            acteur_maxi = acteur
-            maxi = centralite(G, acteur)
-    return acteur_maxi
+        les_centralites[acteur] = centralite(G, acteur)
+    acteur_central = None
+    mini = None
+    for (acteur, centralite_acteur) in les_centralites.items():
+        if mini == None or centralite_acteur < mini:
+            mini = centralite_acteur
+            acteur_central = acteur
+    return acteur_central
 
-# print(centre_hollywood(json_vers_nx("./data_2.json")))
+# print(centre_hollywood(G))
+# print(centralite(G, "Al Pacino"))
 
 def eloignement_max(G:nx.Graph):
     """
@@ -268,16 +294,13 @@ def eloignement_max(G:nx.Graph):
     Returns:
         set: Les paires d'acteurs les plus éloignés.
     """
-    max_distance = 0
-    acteurs_eloigner = set()
-    for acteur1 in G.nodes():
-        for acteur2 in G.nodes():
-            if acteur1 != acteur2:
-                distance_acteurs = distance(G, acteur1, acteur2)
-                if distance_acteurs != None and distance_acteurs > max_distance:
-                    max_distance = distance_acteurs
-                    acteurs_eloigner.add((acteur1, acteur2))
-    return len(acteurs_eloigner)
+    les_centralites = {}
+    for acteur in G.nodes():
+        les_centralites[acteur] = centralite(G, acteur)
+        # print(acteur)
+    return max(les_centralites.values())
 
-# print(eloignement_max(json_vers_nx("./data_100.json")))
-# print(eloignement_max(json_vers_nx("./data_100.json")))
+# print(eloignement_max(G))
+# print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+
+
