@@ -68,7 +68,7 @@ def debuter():
             except FileNotFoundError:
                 print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
         elif commande == "u":
-            G = req.json_vers_nx("./data_100.json")
+            G = req.json_vers_nx("./donnees/data_100.json")
             base_choisie = True
         elif base_choisie is True and commande == "v":
             nx.draw(G, with_labels=True)
