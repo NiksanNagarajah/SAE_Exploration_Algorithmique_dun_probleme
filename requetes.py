@@ -189,7 +189,7 @@ def est_proche(G,u,v,k=1):
 def distance_naive(G, u, v):
     if u not in G.nodes() or v not in G.nodes():
         return None
-    degre = 1
+    degre = 0
     while not est_proche(G, u, v, degre): # PAS MéTHODE ADAPTE (privilégié dico)
         degre += 1
     return degre
@@ -297,10 +297,13 @@ def eloignement_max(G:nx.Graph):
     les_centralites = {}
     for acteur in G.nodes():
         les_centralites[acteur] = centralite(G, acteur)
-        # print(acteur)
+        print(acteur)
     return max(les_centralites.values())
 
 # print(eloignement_max(G))
 # print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+
+# G = json_vers_nx("./donnees/data.json")
+# print(len(G.nodes()))
 
 
