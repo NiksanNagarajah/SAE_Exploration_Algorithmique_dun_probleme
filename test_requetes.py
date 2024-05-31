@@ -34,7 +34,7 @@ def test_est_proche():
 
 def test_distance_naive():
     assert req.distance_naive(G, "Rutger Hauer", "Sean Young") is None #un ou plusieurs acteurs n'existent pas dans le graphe
-    assert req.distance_naive(G, "Elliott Gould", "Elliott Gould") == 1
+    assert req.distance_naive(G, "Elliott Gould", "Elliott Gould") == 0
     assert req.distance_naive(G, "Randi Brooks", "Milton Berle") == 2
     assert req.distance_naive(G, "Charles Durning", "Dom DeLuise") == 1
     assert req.distance_naive(G, "Sam Raimi", "Anne Francis") == 3
@@ -47,6 +47,11 @@ def test_distance():
     assert req.distance(G, "Judy Tucker", "Marcia Jean Kurtz") == 2
     assert req.distance(G, "Neal McDonough", "Neal McDonough") == 0 #ce sont les mêmes acteurs donc la distance est à 0
     assert req.distance(G, "Ben McKenzie", "Elizabeth Hubbard") == 3 
+
+    assert req.distance(G, "Elliott Gould", "Elliott Gould") == 0
+    assert req.distance(G, "Randi Brooks", "Milton Berle") == 2
+    assert req.distance(G, "Charles Durning", "Dom DeLuise") == 1
+    assert req.distance(G, "Sam Raimi", "Anne Francis") == 3
 
 # tests centralite
 

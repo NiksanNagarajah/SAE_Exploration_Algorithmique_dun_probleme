@@ -190,8 +190,8 @@ def distance_naive(G, u, v):
     #Complexité : #O(N)⁴
     if u not in G.nodes() or v not in G.nodes():
         return None
-    degre = 1
-    while not est_proche(G, u, v, degre): #O(N)⁴
+    degre = 0
+    while not est_proche(G, u, v, degre): #O(N)⁴ # PAS MéTHODE ADAPTE (privilégié dico)
         degre += 1
     return degre
 
@@ -325,5 +325,8 @@ def eloignement_max(G:nx.Graph):
 
 # print(eloignement_max(G))
 print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+
+# G = json_vers_nx("./donnees/data.json")
+# print(len(G.nodes()))
 
 
