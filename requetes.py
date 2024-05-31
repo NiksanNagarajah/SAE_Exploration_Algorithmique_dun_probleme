@@ -187,10 +187,11 @@ def est_proche(G,u,v,k=1):
 # print(est_proche(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 def distance_naive(G, u, v):
+    #Complexité : #O(N)⁴
     if u not in G.nodes() or v not in G.nodes():
         return None
     degre = 1
-    while not est_proche(G, u, v, degre): # PAS MéTHODE ADAPTE (privilégié dico)
+    while not est_proche(G, u, v, degre): #O(N)⁴
         degre += 1
     return degre
 
@@ -213,16 +214,17 @@ def distance(G, u, v):
     Returns:
         (int): La distance entre les 2 acteurs.
     """
+    #Complexité : #O(N)³
     if u == v:
         return 0
     ensemble_colab = set()
     dico_collab = {0 : {u}}
     i = 0
-    while dico_collab[i] != set():
+    while dico_collab[i] != set(): #O(N)
         dico_collab[i+1] = set()
-        for acteur in dico_collab[i]:
+        for acteur in dico_collab[i]: #O(N)
             colab = G.edges(acteur)
-            for (comedien1, comedien2) in colab:
+            for (comedien1, comedien2) in colab: #O(N)
                 if comedien1 != acteur and comedien1 not in ensemble_colab:
                     ensemble_colab.add(comedien1)
                     dico_collab[i+1].add(comedien1)
@@ -241,8 +243,18 @@ def distance(G, u, v):
 
 # 6.4)
 
-# !!!!! Pas sur !!!!!
 def centralite(G, u):
+    """
+    Déterminer la plus grande distance qui le sépare d’un autre acteur dans le graphe.
+
+    Args:
+        G (nx.Graph): Le graphe des acteurs.
+        u : (str) Nom de l'acteur
+
+    Returns:
+        int : Distance maximale qui sépare l'acteur u d'un autre acteur dans le graphe.
+    """
+    # Complexité : #O(N)²
     if u not in G.nodes():
         return None
     # # return G.degree(u) 
@@ -251,10 +263,10 @@ def centralite(G, u):
     # return max(lengths.values())
     distances = {u : 0} # Parcours en largeur 
     a_faire = [u]
-    while a_faire:
+    while a_faire: #O(N)
         courant = a_faire.pop(0)
         distance_actuel = distances[courant]
-        for voisin in G.neighbors(courant):
+        for voisin in G.neighbors(courant): #O(N)
             if voisin not in distances.keys():
                 distances[voisin] = distance_actuel + 1
                 a_faire.append(voisin)
@@ -263,6 +275,15 @@ def centralite(G, u):
 # print(centralite(json_vers_nx("./donnees/data_100.json"), "Robert Gerringer"))
 
 def centre_hollywood(G):
+    """
+    Déterminer l'acteur le plus central du graphe.
+
+    Args:
+        G (nx.Graph): Le graphe des acteurs.
+
+    Returns:
+        str : Le nom de l'acteur au centre d'Hollywood
+    """
     # acteur_maxi = None
     # maxi = 0
     # for acteur in G.nodes():
@@ -270,12 +291,13 @@ def centre_hollywood(G):
     #         acteur_maxi = acteur
     #         maxi = centralite(G, acteur)
     # return acteur_maxi, maxi
+    #Complexité : O(N)³
     les_centralites = {}
-    for acteur in G.nodes():
-        les_centralites[acteur] = centralite(G, acteur)
+    for acteur in G.nodes(): #O(N)
+        les_centralites[acteur] = centralite(G, acteur) #O(N)²
     acteur_central = None
     mini = None
-    for (acteur, centralite_acteur) in les_centralites.items():
+    for (acteur, centralite_acteur) in les_centralites.items(): #O(N)
         if mini == None or centralite_acteur < mini:
             mini = centralite_acteur
             acteur_central = acteur
@@ -294,13 +316,14 @@ def eloignement_max(G:nx.Graph):
     Returns:
         set: Les paires d'acteurs les plus éloignés.
     """
+    #Complexité : O(N)³
     les_centralites = {}
-    for acteur in G.nodes():
-        les_centralites[acteur] = centralite(G, acteur)
-        # print(acteur)
+    for acteur in G.nodes(): #O(N)
+        les_centralites[acteur] = centralite(G, acteur) #O(N)²
+        print(acteur)
     return max(les_centralites.values())
 
 # print(eloignement_max(G))
-# print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
 
 
