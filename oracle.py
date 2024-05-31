@@ -7,7 +7,7 @@ import random
 def menu_principale():
     commnde_faite = False
     while not commnde_faite:
-        print(Fore.RED, Style.BRIGHT)
+        # print(Fore.RED, Style.BRIGHT)
         print("╭──────────────────────────╮    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⡠⠤⣤")
         print("│      Menu principal      │ ⡤⢴⡒⠰⣶⣾⡉⣙⡿⠷⠄⠽⠟⠛⠀⠚")
         print("│──────────────────────────│ ⣿⣿⠏⠉⣵⣶⠂⢀⣶⣶⠂⢠⣶⡶⠀⢠")
