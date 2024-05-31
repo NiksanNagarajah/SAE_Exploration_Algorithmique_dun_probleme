@@ -320,11 +320,11 @@ def eloignement_max(G:nx.Graph):
     les_centralites = {}
     for acteur in G.nodes(): #O(N)
         les_centralites[acteur] = centralite(G, acteur) #O(N)²
-        print(acteur)
+        # print(acteur)
     return max(les_centralites.values())
 
 # print(eloignement_max(G))
-print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+# print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
 
 # G = json_vers_nx("./donnees/data.json")
 # print(len(G.nodes()))

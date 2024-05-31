@@ -1,19 +1,22 @@
 import requetes as req
 import networkx as nx
 import matplotlib.pyplot as plt
+from colorama import Fore, Back, Style
+import random
 
 def menu_principale():
     commnde_faite = False
     while not commnde_faite:
-        print("╭──────────────────────────╮")
-        print("│      Menu principal      │")
-        print("│──────────────────────────│")
-        print("│ P: Présentation appli    │")
-        print("│ D: Débuter               │")
-        print("│ W: Qui sommes nous ?     │")
-        print("│ Q: Quitter               │")
-        print("╰──────────────────────────╯")
-        commande_brute = input("")# input("Entrez une commande: ")
+        print(Fore.RED, Style.BRIGHT)
+        print("╭──────────────────────────╮    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⡠⠤⣤")
+        print("│      Menu principal      │ ⡤⢴⡒⠰⣶⣾⡉⣙⡿⠷⠄⠽⠟⠛⠀⠚")
+        print("│──────────────────────────│ ⣿⣿⠏⠉⣵⣶⠂⢀⣶⣶⠂⢠⣶⡶⠀⢠")
+        print("│ P: Présentation appli    │ ⢻⣻⣶⣞⣟⣗⣶⣾⣿⣷⣶⣿⣿⣷⣶⣿")
+        print("│ D: Débuter               │ ⢸⣽⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿")
+        print("│ W: Qui sommes nous ?     │ ⢸⣾⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿")
+        print("│ Q: Quitter     🍿        │ ⢸⣭⣟⣿⣿⢻⣽⣿⣿⣽⣽⣿⣽⣿⣽⣿")
+        print("╰──────────────────────────╯ ⠘⠛⠛⠛⠛⠘⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛")
+        commande_brute = input("Entrez une commande: ")
         commande = commande_brute.lower()
         if commande == "p":
             # print("\nPrésentation de l'application")
@@ -32,11 +35,9 @@ def menu_principale():
             print("Commande", commande_brute, "inconnue")
 
 def presentation():
-    ######### A MODIFIER #########
-    print("L'application \"A la conquête de Hollywood\" est une application qui permet de retrouver les acteurs qui ont collaboré ensemble dans des films. Elle est basée sur un graphe qui représente les collaborations entre acteurs. Vous pouvez rechercher des acteurs et voir avec qui ils ont collaboré.\n")
+    print("L'application \"A la conquête de Hollywood\" est une application qui permet de retrouver les acteurs qui ont collaboré ensemble dans des films. \nElle est basée sur un graphe qui représente les collaborations entre acteurs. Vous pouvez rechercher des acteurs et voir avec qui ils ont collaboré.\n")
 
 def qui_sommes_nous():
-    ######### A MODIFIER #########
     print("Nous sommes Alexy WICIAK et Niksan NAGARAJAH, étudiant en première années de BUT informatique à l'IUT d'Orléans. Nous avons réalisé cette application dans le cadre d'un projet.\n")
 
 def debuter():
@@ -48,18 +49,23 @@ def debuter():
         print("│      Menu principal      │")
         print("│──────────────────────────│")
         if base_choisie:
-            print("│ C: Changer de base de ...│")
-            print("│ V: Voir graph de la base │")
-            print("│ M: Collaborateurs communs│")
-            print("│ P: Collaborateurs proches│")
-            print("│ S: Sont proches ?        │")
+            print("│ C: Changer de base de ...│          _._")
+            print("│ V: Voir graph de la base │        .'   `.")
+            print("│ E: Extrait des personnes │        |     |")
+            print("│ M: Collaborateurs communs│       \"=======\"")
+            print("│ P: Collaborateurs proches│        $ ^ ^ $ ")
+            print("│ S: Sont proches ?        │        `  #  '")
+            print("│ D: Distance qui sépare...│         `._.'")
+            print("│ T: Centralité d'un acteur│      _.'< ' >'-._")
+            print("│ H: Centre d'Hollywood    │    .'    \ /     '")
+            print("│ L: Eloignement maximal   │   /       v       \\")
         else:
             print("│ C: Choisir une base de...│")
             print("│ U: Utiliser notre base   │")
         
         print("│ Q: Quitter               │")
         print("╰──────────────────────────╯")
-        commande_brute = input("")# input("Entrez une commande: ")
+        commande_brute = input("Entrez une commande: ")
         commande = commande_brute.lower()
         if commande == "c":
             try:
@@ -70,6 +76,8 @@ def debuter():
         elif commande == "u":
             G = req.json_vers_nx("./donnees/data_100.json")
             base_choisie = True
+        elif base_choisie is True and commande == "e":
+            extraire_personne(G)
         elif base_choisie is True and commande == "v":
             nx.draw(G, with_labels=True)
             plt.show()
@@ -79,6 +87,14 @@ def debuter():
             collab_proches(G)
         elif base_choisie is True and commande == "s":
             sont_proches(G)
+        elif base_choisie is True and commande == "d":
+            distance_separe(G)
+        elif base_choisie is True and commande == "t":
+            centrelite_acteur(G)
+        elif base_choisie is True and commande == "h":
+            print("Le centre d'Hollywood est", req.centre_hollywood(G), "\n")
+        elif base_choisie is True and commande == "l":
+            print("L'éloignement maximal de notre réseau est de", req.eloignement_max(G), "\n")
         elif commande == "q":
             commnde_faite = True
             print("\nAu revoir !")
@@ -89,6 +105,13 @@ def debuter():
 def choose_file():
     chemin = input("Entrez le chemin du fichier JSON à utiliser\n")
     return req.json_vers_nx(chemin)
+
+def extraire_personne(G):
+    liste = list(G.nodes())
+    print("\nVoici 10 acteurs aléatoires:\n")
+    for _ in range(10):
+        print(" • " + random.choice(liste))
+    print()
 
 def collab_communs(G):
     acteur1 = input("Entrez le nom du premier acteur\n")
@@ -119,7 +142,24 @@ def sont_proches(G):
     if req.est_proche(G, acteur1, acteur2):
         print("Les acteurs", acteur1, "et", acteur2, "sont proches\n")
     else:
-        print("Les acteurs", acteur1, "et", acteur2, "ne sont pas proches\n")        
+        print("Les acteurs", acteur1, "et", acteur2, "ne sont pas proches\n")   
+
+def distance_separe(G):
+    acteur1 = input("Entrez le nom du premier acteur\n")
+    acteur2 = input("Entrez le nom du deuxième acteur\n")
+    distance = req.distance(G, acteur1, acteur2)
+    if distance is not None:
+        print("La distance qui sépare", acteur1, "et", acteur2, "est de", distance + "\n")
+    else:
+        print("Les acteurs", acteur1, "et", acteur2, "ne sont pas reliés\n")
+
+def centrelite_acteur(G):
+    acteur = input("Entrez le nom de l'acteur\n")
+    centralite = req.centralite(G, acteur)
+    if centralite is not None:
+        print("La centralité de", acteur, "est de", centralite + "\n")
+    else:
+        print("L'acteur", acteur, "n'existe pas dans la base\n")   
 
 def lancer_application():
     print("Bienvenue dans l'application \"A la conquête de Hollywood\" !")
