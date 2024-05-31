@@ -225,10 +225,10 @@ def distance(G, u, v):
         for acteur in dico_collab[i]: #O(N)
             colab = G.edges(acteur)
             for (comedien1, comedien2) in colab: #O(N)
-                if comedien1 != acteur and comedien1 not in ensemble_colab:
+                if comedien1 not in ensemble_colab:
                     ensemble_colab.add(comedien1)
                     dico_collab[i+1].add(comedien1)
-                if comedien2 != acteur and comedien2 not in ensemble_colab:
+                if comedien2 not in ensemble_colab:
                     ensemble_colab.add(comedien2)
                     dico_collab[i+1].add(comedien2)
             if v in dico_collab[i+1]:
@@ -237,7 +237,7 @@ def distance(G, u, v):
         i += 1
     return None
 
-# print(distance(json_vers_nx("./donnees/data_100.json"), "Ben McKenzie", "Elizabeth Hubbard"))
+print(distance(G, "Ben McKenzie", "Elizabeth Hubbard"))
 # print(distance(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
