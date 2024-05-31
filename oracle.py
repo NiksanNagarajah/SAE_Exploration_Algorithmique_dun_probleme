@@ -38,7 +38,7 @@ def presentation():
     print("L'application \"A la conquête de Hollywood\" est une application qui permet de retrouver les acteurs qui ont collaboré ensemble dans des films. \nElle est basée sur un graphe qui représente les collaborations entre acteurs. Vous pouvez rechercher des acteurs et voir avec qui ils ont collaboré.\n")
 
 def qui_sommes_nous():
-    print("Nous sommes Alexy WICIAK et Niksan NAGARAJAH, étudiant en première années de BUT informatique à l'IUT d'Orléans. Nous avons réalisé cette application dans le cadre d'un projet.\n")
+    print("Nous sommes Alexy WICIAK et Niksan NAGARAJAH, étudiants en première années de BUT informatique à l'IUT d'Orléans. Nous avons réalisé cette application dans le cadre d'un projet.\n")
 
 def debuter():
     commnde_faite = False
