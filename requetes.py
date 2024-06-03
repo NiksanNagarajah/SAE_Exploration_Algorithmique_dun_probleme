@@ -100,6 +100,7 @@ def collaborateurs_communs(G, u, v):
     - (set) Ensemble des acteurs qui ont collaboré avec acteur1 et acteur2.
     """
     #Complexité : O(N)
+    # start = time.time()
     try :
         collaborateurs = set()
         colab_acteur1 = set(G[u].keys())
@@ -107,13 +108,15 @@ def collaborateurs_communs(G, u, v):
         for acteur in colab_acteur1: #O(N)
             if acteur in colab_acteur2 and acteur != u and acteur != v:
                 collaborateurs.add(acteur)
+        # print(time.time()-start)
         return collaborateurs
     except:
         print("Un des noms des acteurs spécifié est incorrecte ou n'est pas dans notre base de données\n")
+        # print(time.time()-start)
         return None
 
-# print(collaborateurs_communs(json_vers_nx("./donnees/data_2.json"), "Robert Downey Jr.", "Tom Holland"))
-# print(collaborateurs_communs(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Sean Young"))
+# print(collaborateurs_communs(json_vers_nx("./donnees/data.json"), "Robert Downey Jr.", "Tom Holland"))
+# print(collaborateurs_communs(G, "Rutger Hauer", "Sean Young"))
 
 #6.3)
 
