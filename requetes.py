@@ -145,12 +145,10 @@ def collaborateurs_proches(G,u,k):
     if u not in G.nodes:
         print(u,"est un illustre inconnu")
         return None
-    # if k == 0:
-    #     return set()
     collaborateurs = set()
     collaborateurs.add(u)
     # print(collaborateurs)
-    for i in range(k):# O(N)
+    for _ in range(k): # O(N)
         collaborateurs_directs = set()
         for c in collaborateurs: # O(N)
             for voisin in G.adj[c]: # O(N)
@@ -237,7 +235,7 @@ def distance(G, u, v):
         i += 1
     return None
 
-print(distance(G, "Ben McKenzie", "Elizabeth Hubbard"))
+# print(distance(G, "Ben McKenzie", "Elizabeth Hubbard"))
 # print(distance(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
 
 
@@ -272,7 +270,7 @@ def centralite(G, u):
                 a_faire.append(voisin)
     return max(distances.values())
 
-# print(centralite(json_vers_nx("./donnees/data_100.json"), "Robert Gerringer"))
+# print(centralite(G, "Al Pacino"))
 
 def centre_hollywood(G):
     """
