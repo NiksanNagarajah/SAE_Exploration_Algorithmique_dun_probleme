@@ -1,6 +1,7 @@
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
+import time
 
 def corrige_nom(nom):
     #Complexité : O(N)
@@ -48,8 +49,8 @@ def txt_to_json(fichier_txt, nouveau_fichier):
 
 # txt_to_json("data.txt", "data.json")
 # txt_to_json("data_100.txt", "data_100.json")
-
-
+# txt_to_json("./donnees/data_1000.txt", "./donnees/data_1000.json")
+# txt_to_json("./donnees/data_10000.txt", "./donnees/data_10000.json")
 
 def json_vers_nx(chemin):
     """
@@ -317,12 +318,14 @@ def eloignement_max(G:nx.Graph):
     #Complexité : O(N)³
     les_centralites = {}
     for acteur in G.nodes(): #O(N)
+        d = time.time()
         les_centralites[acteur] = centralite(G, acteur) #O(N)²
-        # print(acteur)
+        # print("Centralité de", acteur, "en", time.time() - d)
     return max(les_centralites.values())
 
-# print(eloignement_max(G))
-# print(eloignement_max(json_vers_nx("./donnees/data.json"))) # Trop long
+# print("Pour data_100, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_100.json")))
+# print("Pour data_1000, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_1000.json")))
+# print("Pour data_10000, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_10000.json")))
 
 # G = json_vers_nx("./donnees/data.json")
 # print(len(G.nodes()))
