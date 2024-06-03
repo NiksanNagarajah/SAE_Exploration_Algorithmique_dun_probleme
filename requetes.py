@@ -47,11 +47,6 @@ def txt_to_json(fichier_txt, nouveau_fichier):
     except:
         print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
 
-# txt_to_json("data.txt", "data.json")
-# txt_to_json("data_100.txt", "data_100.json")
-# txt_to_json("./donnees/data_1000.txt", "./donnees/data_1000.json")
-# txt_to_json("./donnees/data_10000.txt", "./donnees/data_10000.json")
-
 def json_vers_nx(chemin):
     """
     La fonction permet de convertir un fichier JSON en un graphe G.
@@ -74,8 +69,7 @@ def json_vers_nx(chemin):
     # plt.show()
     return G
 
-# json_vers_nx("./donnees/data_2.json")
-# json_vers_nx("./donnees/data_100.json")
+# G = json_vers_nx("./donnees/data.json")
 
 # def graphe_collaborateurs_communs(acteur1, acteur2, collaborateurs):
 #     G = nx.Graph()
@@ -85,7 +79,6 @@ def json_vers_nx(chemin):
 #     nx.draw(G, with_labels=True)
 #     plt.show()
 
-G = json_vers_nx("./donnees/data_100.json")
 
 def collaborateurs_communs(G, u, v):
     """
@@ -115,11 +108,7 @@ def collaborateurs_communs(G, u, v):
         # print(time.time()-start)
         return None
 
-# print(collaborateurs_communs(json_vers_nx("./donnees/data.json"), "Robert Downey Jr.", "Tom Holland"))
-# print(collaborateurs_communs(G, "Rutger Hauer", "Sean Young"))
-
 #6.3)
-
 # def collaborateurs_proches(G, u, k):
 #     ensemble_colab = set()
 #     dico_collab = {0 : {u}}
@@ -161,9 +150,6 @@ def collaborateurs_proches(G,u,k):
         collaborateurs = collaborateurs.union(collaborateurs_directs)
     return collaborateurs
 
-# print(collaborateurs_proches(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", 3))
-# print(collaborateurs_proches(json_vers_nx("./donnees/data_100.json"), "Ken Baker", 0))
-
 def est_proche(G,u,v,k=1):
     """
     La fonction permet de savoir si le collaborateur 'u' est proche de 'v'.
@@ -185,9 +171,6 @@ def est_proche(G,u,v,k=1):
             return True
     return False
 
-# print(est_proche(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Sean Young"))
-# print(est_proche(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
-
 def distance_naive(G, u, v):
     #Complexité : #O(N)⁴
     if u not in G.nodes() or v not in G.nodes():
@@ -197,12 +180,6 @@ def distance_naive(G, u, v):
         degre += 1
     return degre
 
-# print(distance_naive(json_vers_nx("./donnees/data_100.json"), "Sam Raimi", "Anne Francis"))
-# print(distance_naive(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
-
-
-
-# !!!!! Pas sur !!!!!
 def distance(G, u, v):
     """
     La fonction permet trouver la distance entre 2 acteurs.
@@ -235,16 +212,10 @@ def distance(G, u, v):
                     dico_collab[i+1].add(comedien2)
             if v in dico_collab[i+1]:
                 return i+1
-            # print(colab)
         i += 1
     return None
 
-# print(distance(G, "Ben McKenzie", "Elizabeth Hubbard"))
-# print(distance(json_vers_nx("./donnees/data_2.json"), "Rutger Hauer", "Jerry Hall"))
-
-
 # 6.4)
-
 def centralite(G, u):
     """
     Déterminer la plus grande distance qui le sépare d’un autre acteur dans le graphe.
@@ -274,8 +245,6 @@ def centralite(G, u):
                 a_faire.append(voisin)
     return max(distances.values())
 
-# print(centralite(G, "Al Pacino"))
-
 def centre_hollywood(G):
     """
     Déterminer l'acteur le plus central du graphe.
@@ -293,6 +262,7 @@ def centre_hollywood(G):
     #         acteur_maxi = acteur
     #         maxi = centralite(G, acteur)
     # return acteur_maxi, maxi
+    # ou
     #Complexité : O(N)³
     les_centralites = {}
     for acteur in G.nodes(): #O(N)
@@ -304,9 +274,6 @@ def centre_hollywood(G):
             mini = centralite_acteur
             acteur_central = acteur
     return acteur_central
-
-# print(centre_hollywood(G))
-# print(centralite(G, "Al Pacino"))
 
 def eloignement_max(G:nx.Graph):
     """
@@ -323,14 +290,5 @@ def eloignement_max(G:nx.Graph):
     for acteur in G.nodes(): #O(N)
         d = time.time()
         les_centralites[acteur] = centralite(G, acteur) #O(N)²
-        # print("Centralité de", acteur, "en", time.time() - d)
     return max(les_centralites.values())
-
-# print("Pour data_100, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_100.json")))
-# print("Pour data_1000, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_1000.json")))
-# print("Pour data_10000, l'éloignement max est de", eloignement_max(json_vers_nx("./donnees/data_10000.json")))
-
-# G = json_vers_nx("./donnees/data.json")
-# print(len(G.nodes()))
-
 
