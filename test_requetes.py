@@ -74,5 +74,4 @@ def test_eloignement_max():
     assert req.eloignement_max(G) == 3
     # assert req.eloignement_max(req.json_vers_nx("./data.json")) == ??? # Trop long, essayer à l'IUT mais reste tout de même très long
 
-### Attention la visualisation est graphe ne fonctionne pas. A remédier
 
