@@ -7,7 +7,7 @@ import random
 def menu_principale():
     commnde_faite = False
     while not commnde_faite:
-        # print(Fore.RED, Style.BRIGHT)
+        print(Fore.RED, Style.BRIGHT)
         print("╭──────────────────────────╮    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⡠⠤⣤")
         print("│      Menu principal      │ ⡤⢴⡒⠰⣶⣾⡉⣙⡿⠷⠄⠽⠟⠛⠀⠚")
         print("│──────────────────────────│ ⣿⣿⠏⠉⣵⣶⠂⢀⣶⣶⠂⢠⣶⡶⠀⢠")
@@ -71,8 +71,8 @@ def debuter():
             try:
                 G = choose_file()
                 base_choisie = True
-            except FileNotFoundError:
-                print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible")
+            except Exception:
+                print("Désolé nous rencontrons une erreur, le fichier n'existe pas ou est ilisible\n")
         elif commande == "u":
             G = req.json_vers_nx("./donnees/data_100.json")
             base_choisie = True
@@ -94,7 +94,7 @@ def debuter():
         elif base_choisie is True and commande == "h":
             print("Le centre d'Hollywood est", req.centre_hollywood(G), "\n")
         elif base_choisie is True and commande == "l":
-            print("L'éloignement maximal de notre réseau est de", req.eloignement_max(G), "\n")
+            print("La distance maximale entre toute paire d'acteurs/actrices dans le graphe est de", req.eloignement_max(G), "\n")
         elif commande == "q":
             commnde_faite = True
             print("\nAu revoir !")
