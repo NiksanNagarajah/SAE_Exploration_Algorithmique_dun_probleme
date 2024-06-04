@@ -55,7 +55,7 @@ def debuter():
     G = None
     while not commnde_faite:
         print(color_special_chars("╭──────────────────────────╮"))
-        print(color_special_chars("│      Menu principal      │"))
+        print(color_special_chars("│  🎬  Menu principal  🎬  │"))
         print(color_special_chars("│──────────────────────────│"))
         if base_choisie:
             print(color_special_chars("│ C: Changer de base de ...│          _._"))
