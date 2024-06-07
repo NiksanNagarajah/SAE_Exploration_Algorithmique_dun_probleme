@@ -246,7 +246,8 @@ def centralite(G, u):
             if voisin not in distances.keys():
                 distances[voisin] = distance_actuel + 1
                 a_faire.append(voisin)
-    return max(distances.values())
+    # return max(distances.values())
+    return distance_actuel
 
 def centre_hollywood(G):
     """
