@@ -194,8 +194,11 @@ def distance(G, u, v):
         (int): La distance entre les 2 acteurs.
     """
     #Complexité : #O(N)³
+    print("ICI")
     if u == v:
         return 0
+    if u not in G.nodes() or v not in G.nodes():
+        return None
     ensemble_colab = set()
     dico_collab = {0 : {u}}
     i = 0
