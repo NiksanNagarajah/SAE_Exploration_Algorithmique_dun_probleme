@@ -194,7 +194,6 @@ def distance(G, u, v):
         (int): La distance entre les 2 acteurs.
     """
     #Complexité : #O(N)³
-    print("ICI")
     if u == v:
         return 0
     if u not in G.nodes() or v not in G.nodes():
@@ -259,14 +258,6 @@ def centre_hollywood(G):
     Returns:
         str : Le nom de l'acteur au centre d'Hollywood
     """
-    # acteur_maxi = None
-    # maxi = 0
-    # for acteur in G.nodes():
-    #     if centralite(G, acteur) > maxi:
-    #         acteur_maxi = acteur
-    #         maxi = centralite(G, acteur)
-    # return acteur_maxi, maxi
-    # ou
     #Complexité : O(N)³
     les_centralites = {}
     for acteur in G.nodes(): #O(N)
