@@ -66,7 +66,7 @@ def test_centralite():
 
 def test_centre_hollywood():
     assert req.centre_hollywood(G) == "Al Pacino"
-    assert req.centre_hollywood(G) != "Robert De Niro"
+    # assert req.centre_hollywood(G) != "Robert De Niro"
 
 # tests  eloignement_max
 
